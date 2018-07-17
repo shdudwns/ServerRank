@@ -61,8 +61,7 @@ class Loader extends PluginBase{
 		$serverss['address'] = [];
 		$serverss['address']['host'] = Utils::getIp();
 		$serverss['address']['port'] = $this->getServer()->getPort();
-		//$serverss['numplayers'] = count($this->getServer()->getOnlinePlayers());
-		$serverss['numplayers'] = 1;
+		$serverss['numplayers'] = count($this->getServer()->getOnlinePlayers());
 		array_push($servers, $serverss);
 		usort($servers, function($a, $b){
 			return $a['numplayers'] > $b['numplayers'] ? 1 : -1;
