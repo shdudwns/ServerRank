@@ -28,6 +28,6 @@ class GetInfoTask extends AsyncTask{
 	}
 
 	public function onCompletion(Server $server){
-		Loader::getInstance()->getHostByNameRegister($this->hostname, $this->getResult(), $this->port, json_decode(json_encode($this->servers), true));
+		Loader::getInstance()->getHostByNameCallback($this->hostname, $this->getResult(), $this->port, json_decode(json_encode($this->servers), true));
 	}
 }
