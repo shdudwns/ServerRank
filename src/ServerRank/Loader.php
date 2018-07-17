@@ -87,4 +87,9 @@ class Loader extends PluginBase{
 			$this->getServer()->getLogger()->alert($this->prefix . '카카오톡 아이디 solo5star, 검색 후 연락 주세요.');
 		}
 	}
+	public function sendRankMessage(Player $player): void {
+		if($this->rank !== null){
+			$player->sendMessage($this->prefix . '한국 전체 서버 중 우리 서버의 순위는 §7(MCBE RANK 기준) §d§l' . $this->rank . '§r위 입니다.');
+		}
+	}
 }
