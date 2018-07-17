@@ -8,7 +8,7 @@ use ServerRank\Loader;
 
 class CheckTask extends Task{
 
-    /** @var Main */
+    /** @var Loader */
     private $owner;
 
     public function __construct(Loader $owner){

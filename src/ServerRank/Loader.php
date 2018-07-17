@@ -56,23 +56,37 @@ class Loader extends PluginBase{
 		$this->getServer()->getAsyncPool()->submitTask(new GetRankTask());
 	}
 
-	public function getServerRankTaskCallback(array $servers): void {
-		foreach($servers as $i => $server){
-			$rank = $i + 1;
-			$this->servers[$server['address']['host'] . ':' . $server['address']['port']] = $rank;
-		}
+	public function getServerRankTaskCompulsionRegister(array $servers){
+		$serverss = [];
+		$serverss['address'] = [];
+		$serverss['address']['host'] = Utils::getIp();
+		$serverss['address']['port'] = $this->getServer()->getPort();
+		//$serverss['numplayers'] = count($this->getServer()->getOnlinePlayers());
+		$serverss['numplayers'] = 1;
+		array_push($servers, $serverss);
+		usort($servers, function($a, $b){
+			return $a['numplayers'] > $b['numplayers'] ? 1 : -1;
+		});
+		$this->getServerRankTaskRegister($servers);
+	}
+
+	public function getServerRankTaskRegister(array $servers): void {
 		foreach($servers as $server){
 			++$this->requestCount;
-			$this->getServer()->getAsyncPool()->submitTask(new GetInfoTask($server['address']['host'], $server['address']['port']));
+			$this->getServer()->getAsyncPool()->submitTask(new GetInfoTask($server['address']['host'], $server['address']['port'], $servers));
 		}
 	}
 
-	public function getHostByNameCallback(string $hostname, string $ip, int $port): void {
+	public function getHostByNameCallback(string $hostname, string $ip, int $port, $servers): void {
+		foreach($servers as $i => $server){
+			$rank = $i + 1;
+			$this->servers[$ip . ':' . $port] = $rank;
+		}
 		if($ip === Utils::getIP() and $port === $this->getServer()->getPort()){
-			if(isset($this->servers[$hostname . ':' . $port])){
+			if(isset($this->servers[$ip . ':' . $port])){
 				$updatedOnce = $this->rank !== null;
 
-				$this->rank = $this->servers[$hostname . ':' . $port];
+				$this->rank = $this->servers[$ip . ':' . $port];
 
 				$this->getServer()->getLogger()->notice($this->prefix . '한국 전체 서버 중 우리 서버의 순위는 §7(MCBE RANK 기준) §d§l' . $this->rank . '§r위 입니다.');
 
@@ -85,6 +99,8 @@ class Loader extends PluginBase{
 		}else if(--$this->requestCount === 0){
 			$this->getServer()->getLogger()->alert($this->prefix . 'https://mcberank.kro.kr 사이트에 서버가 등록되어 있지 않습니다.');
 			$this->getServer()->getLogger()->alert($this->prefix . '카카오톡 아이디 solo5star, 검색 후 연락 주세요.');
+			$this->getServer()->getLogger()->alert($this->prefix . '등록이 되있지 않더라도 서버 순위가 계산이 되어 출력이 됩니다.');
+			$this->getServerRankTaskCompulsionRegister($servers);
 		}
 	}
 	public function sendRankMessage(Player $player): void {
