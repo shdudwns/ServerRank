@@ -22,7 +22,7 @@ class GetRankTask extends AsyncTask{
 			$server->getLogger()->alert(Loader::getInstance()->prefix . 'http://mcberank.kro.kr 사이트에서 응답을 받을 수 없습니다.');
 			$server->getLogger()->alert(Loader::getInstance()->prefix . '카카오톡 아이디 solo5star, 검색 후 연락 주세요.');
 		}else{
-			Loader::getInstance()->getServerRankTaskCallback($result['data']);
+			Loader::getInstance()->getServerRankTaskRegister($result['data']);
 		}
 	}
 }
