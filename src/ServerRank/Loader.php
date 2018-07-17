@@ -31,7 +31,7 @@ class Loader extends PluginBase{
 	private $rank = null;
 
 	/** @var int */
-	private $repeatingInterval = 1200; // 1 minutes
+	private $repeatingInterval = 6000; // 5 minutes
 
 	/**
 	* @return Loader
@@ -76,7 +76,7 @@ class Loader extends PluginBase{
 
 				$this->getServer()->getLogger()->notice($this->prefix . '한국 전체 서버 중 우리 서버의 순위는 §7(MCBE RANK 기준) §d§l' . $this->rank . '§r위 입니다.');
 
-				if(!$updatedOnce){
+				if($updatedOnce){
 					foreach($this->getServer()->getOnlinePlayers() as $player){
 						$this->sendRankMessage($player);
 					}
