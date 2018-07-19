@@ -1,6 +1,6 @@
 name: ServerRank
 authors: ["BLEAN", "solo"]
-version: '1.2'
+version: '1.3'
 main: ServerRank\Loader
 api: [2.0.0, 3.0.0, 3.1.0, 4.0.0]
 website: http://mcberank.kro.kr
