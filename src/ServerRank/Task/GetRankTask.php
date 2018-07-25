@@ -4,7 +4,7 @@ namespace ServerRank\Task;
 
 use pocketmine\scheduler\AsyncTask;
 
-use pocketmine\utils\Utils;
+use pocketmine\utils\Internet;
 
 use pocketmine\Server;
 
@@ -13,7 +13,7 @@ use ServerRank\Loader;
 class GetRankTask extends AsyncTask{
 
 	public function onRun(){
-		$this->setResult(Utils::getURL('http://mcberank.kro.kr/api/online-servers'));
+		$this->setResult(Internet::getURL('http://mcberank.kro.kr/api/online-servers'));
 	}
 
 	public function onCompletion(Server $server){
